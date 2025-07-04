@@ -1,0 +1,5 @@
+name: CandyGuideNPC
+version: 'v1.0'
+main: com.heliosay.candyGuideNPC.CandyGuideNPC
+api-version: '1.21'
+author: HeliosAy
