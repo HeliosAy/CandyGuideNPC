@@ -1,0 +1,81 @@
+npc:
+  enabled: true
+  name: "GuideNPC Villager"
+  type: "VILLAGER"
+  glowing: true
+  look-range: 8
+  cooldown: 1500
+  sound-enabled: true
+  spawn-location:
+    world: "world"
+    x: 250.5
+    y: 70.0
+    z: -565.5
+chat:
+  empty-lines: 15
+  continue-message: "&7Devam etmek için &eShift &7tuşuna basın veya &eNPC'ye &7tıklayın"
+messages:
+  welcome:
+    - "&6&lSunucumuza Hoş Geldiniz &e{player}!"
+    - "&7Rehber NPC'miz size yardımcı olacak."
+  finish:
+    - "&6&lRehber Tamamlandı!"
+    - "&7Tebrikler &e{player}&7, rehberi tamamladınız!"
+    - "&7İyi oyunlar dileriz!"
+# types: MESSAGE, WAYPOINT, COMMAND
+guide-steps:
+  step-1:
+    type: "MESSAGE"
+    messages:
+      - "&6Merhaba &e{player}&6!"
+      - "&7Seni buraya kadar getirmek için buradayım."
+      - "&7Beni takip et, sana her şeyi göstereceğim."
+  step-2:
+    type: "WAYPOINT"
+    location:
+      world: "world"
+      x: 233.5
+      y: 71.0
+      z: -565.5
+    messages:
+      - "&aİlk durağımıza geldik!"
+      - "&7Burası &espawn &7alanının yanı."
+  step-3:
+    type: "COMMAND"
+    commands:
+      - "give {player} bread 5"
+      - "tell {player} Size ekmek verdim!"
+  step-4:
+    type: "WAYPOINT"
+    location:
+      world: "world"
+      x: 233.5
+      y: 71.0
+      z: -551.5
+    messages:
+      - "&aİkinci durağımız!"
+      - "&7Burası &emağaza &7alanı."
+      - "&7Burada alışveriş yapabilirsin."
+  step-5:
+    type: "MESSAGE"
+    messages:
+      - "&6Önemli Bilgi!"
+      - "&7Sunucumuzda &e/spawn &7komutu ile"
+      - "&7istediğin zaman spawn'a dönebilirsin."
+  step-6:
+    type: "WAYPOINT"
+    location:
+      world: "world"
+      x: 218.5
+      y: 77.0
+      z: -551.5
+    messages:
+      - "&aÜçüncü ve son durağımız!"
+      - "&7Burası &egölet &7alanı."
+      - "&7Burada balık tutabilir, dinlenebilirsin."
+  step-7:
+    type: "MESSAGE"
+    messages:
+      - "&6Rehber tamamlandı!"
+      - "&7Artık sunucuda rahatça gezebilirsin &e{player}&7!"
+      - "&7Sorularınız için &e/help &7komutunu kullanın."

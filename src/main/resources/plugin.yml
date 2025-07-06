@@ -3,3 +3,8 @@ version: 'v1.0'
 main: com.heliosay.candyGuideNPC.CandyGuideNPC
 api-version: '1.21'
 author: HeliosAy
+commands:
+  guidenpc:
+    description: Ana GuideNPC komutu
+    usage: /<command> <sub>
+    aliases: [gnpc]
