@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Guardian;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class NpcConfig {
     }
 
     // NPC OYUNCUYA BAKMA MESAFESI
-    public int getlookRange(){
+    public int getLookRange(){
         return config.getInt("npc.lookrange");
     }
 
@@ -113,7 +112,7 @@ public class NpcConfig {
                 step.setType(GuideStep.StepType.MESSAGE);
             }
 
-            step.setMessages(stepsSection.getStringList("messages"));
+            step.setMessages(stepSection.getStringList("messages"));
             step.setCommands(stepSection.getStringList("commands"));
 
             // WAYPOINT ICIN KONUM

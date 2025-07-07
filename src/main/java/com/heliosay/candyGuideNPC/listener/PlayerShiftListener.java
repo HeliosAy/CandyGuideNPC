@@ -11,7 +11,9 @@ public class PlayerShiftListener implements Listener {
     public PlayerShiftListener(NpcManager npcManager){this.npcManager = npcManager;}
 
     @EventHandler
-    public void onPlayerShift(PlayerToggleSneakEvent event){
-
+    public void onPlayerShift(PlayerToggleSneakEvent event) {
+        if (event.isSneaking()) {
+            npcManager.handleShiftClick(event.getPlayer());
+        }
     }
 }

@@ -1,10 +1,10 @@
 package com.heliosay.candyGuideNPC.command;
 
+import com.heliosay.candyGuideNPC.CandyGuideNPC;
 import com.heliosay.candyGuideNPC.command.commands.ReloadCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -12,10 +12,10 @@ import java.util.Map;
 
 public class GuideNpcCommand implements CommandExecutor {
 
-    private final JavaPlugin plugin;
+    private final CandyGuideNPC plugin;
     private final Map<String, SubCommand> subCommands = new HashMap<>();
 
-    public GuideNpcCommand(JavaPlugin plugin) {
+    public GuideNpcCommand(CandyGuideNPC plugin) {
         this.plugin = plugin;
 
         // Alt komutlar register ediliyor

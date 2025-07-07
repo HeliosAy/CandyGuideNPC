@@ -1,6 +1,7 @@
 package com.heliosay.candyGuideNPC.npc;
 
 
+import com.heliosay.candyGuideNPC.CandyGuideNPC;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
@@ -19,7 +20,7 @@ import java.util.*;
 
 public class NpcManager {
 
-    private final JavaPlugin plugin;
+    private final CandyGuideNPC plugin;
     private final NPCRegistry registry;
     private final NpcConfig npcConfig;
     private final Map<UUID, NPC> playerNpcs = new HashMap<>();
@@ -27,7 +28,7 @@ public class NpcManager {
     private final Map<UUID, Long> lastInteraction = new HashMap<>();
     private final Set<UUID> playersWaitingForInput = new HashSet<>();
 
-    public NpcManager(JavaPlugin plugin, NpcConfig npcConfig) {
+    public NpcManager(CandyGuideNPC plugin, NpcConfig npcConfig) {
         this.plugin = plugin;
         this.registry = CitizensAPI.getNPCRegistry();
         this.npcConfig = npcConfig;
@@ -59,7 +60,7 @@ public class NpcManager {
 
         LookClose lookClose = npc.getOrAddTrait(LookClose.class);
         lookClose.lookClose(true);
-        lookClose.setRange(npcConfig.getlookRange());
+        lookClose.setRange(npcConfig.getLookRange());
         lookClose.setRealisticLooking(true);
 
         // Sadece belirli oyuncuya görünür yapma
@@ -223,13 +224,9 @@ public class NpcManager {
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
         }
 
-        // NPC'yi kaldır
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                removeNpc(player.getUniqueId());
-            }
-        }.runTaskLater(plugin, 40L); // 2 saniye sonra kaldır
+
+        removeNpc(player.getUniqueId());
+
     }
 
     private void clearChat(Player player) {
@@ -281,7 +278,6 @@ public class NpcManager {
         }
         plugin.getLogger().info("Tüm NPC'ler temizlendi!");
     }
-
     public JavaPlugin getPlugin() {
         return plugin;
     }

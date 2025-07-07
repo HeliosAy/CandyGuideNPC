@@ -17,6 +17,9 @@ public final class CandyGuideNPC extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        // Config Dosyalarını oluştur
+        saveDefaultConfig();
+
         this.npcConfig = new NpcConfig(this);
         this.npcManager = new NpcManager(this, npcConfig);
 

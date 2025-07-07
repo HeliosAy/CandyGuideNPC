@@ -8,11 +8,13 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 public class NpcInteractListener implements Listener {
     private NpcManager npcManager;
 
-    public  NpcInteractListener(NpcManager npcManager){this.npcManager = npcManager;}
+    public NpcInteractListener(NpcManager npcManager) {
+        this.npcManager = npcManager;
+    }
 
     @EventHandler
-    public void onNpcInteract(PlayerInteractEntityEvent event){
-
+    public void onNpcInteract(PlayerInteractEntityEvent event) {
+        npcManager.handleInteract(event);
     }
 
 }

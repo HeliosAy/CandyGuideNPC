@@ -11,7 +11,7 @@ public class PlayerQuitListener implements Listener {
     public PlayerQuitListener(NpcManager npcManager){this.npcManager = npcManager;}
 
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event){
-
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        npcManager.removeNpc(event.getPlayer().getUniqueId());
     }
 }

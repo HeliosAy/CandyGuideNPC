@@ -1,15 +1,15 @@
 package com.heliosay.candyGuideNPC.command.commands;
 
+import com.heliosay.candyGuideNPC.CandyGuideNPC;
 import com.heliosay.candyGuideNPC.command.SubCommand;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class ReloadCommand implements SubCommand {
 
-    private final JavaPlugin plugin;
+    private final CandyGuideNPC plugin;
 
-    public ReloadCommand(JavaPlugin plugin) {
+    public ReloadCommand(CandyGuideNPC plugin) {
         this.plugin = plugin;
     }
 
@@ -20,7 +20,7 @@ public class ReloadCommand implements SubCommand {
             return true;
         }
 
-        plugin.reloadConfig();
+        plugin.reloadNpcData();
         sender.sendMessage(ChatColor.GREEN + "[GuideNpc] Config dosyası yeniden yüklendi!");
         return true;
     }
