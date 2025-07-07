@@ -85,6 +85,11 @@ public class NpcConfig {
 
     }
 
+    // Oyuncu oyuna girince gonderilcek mesaj
+    public List<String> getWelcomeMessages() {
+        return config.getStringList("messages.welcome");
+    }
+
     // Npc Adımları bitince gonderilcek mesaj
     public List<String> getFinishMessages(){
         return config.getStringList("messages.finish");
