@@ -1,25 +1,26 @@
 npc:
   enabled: true
-  name: "GuideNPC Villager"
+  name: "&eLorenzo [Rehber NPC]"
   type: "VILLAGER"
   glowing: true
   look-range: 8
-  cooldown: 1500
+  cooldown: 3000
   sound-enabled: true
   spawn-location:
-    world: "world"
-    x: 250.5
+    world: "guidemap"
+    x: 733.0
     y: 70.0
-    z: -565.5
+    z: -298.0
 chat:
   empty-lines: 15
-  continue-message: "&7Devam etmek için &eShift &7tuşuna basın veya &eNPC'ye &7tıklayın"
+  continue-message: "&3Devam etmek için &bShift &3tuşuna basın veya &bNPC'ye &3tıklayın"
 messages:
   welcome:
-    - "&6&lSunucumuza Hoş Geldiniz &e{player}!"
-    - "&7Rehber NPC'miz size yardımcı olacak."
+    - "&6Sunucumuza Hoş Geldiniz &e{player}!"
+    - "&7Sunucumuza katıldığın için teşekkürler"
+    - "&7Devam edebilmek için öncelikle &eLorenzo ile konuşmalısın"
   finish:
-    - "&6&lRehber Tamamlandı!"
+    - "&6Rehber Tamamlandı!"
     - "&7Tebrikler &e{player}&7, rehberi tamamladınız!"
     - "&7İyi oyunlar dileriz!"
 # types: MESSAGE, WAYPOINT, COMMAND
@@ -28,24 +29,29 @@ guide-steps:
     type: "MESSAGE"
     messages:
       - "&6Merhaba &e{player}&6!"
-      - "&7Seni buraya kadar getirmek için buradayım."
-      - "&7Beni takip et, sana her şeyi göstereceğim."
+      - "&7Ben Lorenzo, sana Gökruh kasabasına yolculuğa"
+      - "&7çıkmadan önce, bazı şeyleri göstermek için buradayım..."
+      - "&cBeni takip et"
   step-2:
     type: "WAYPOINT"
     location:
-      world: "world"
-      x: 233.5
-      y: 71.0
-      z: -565.5
+      world: "guidemap"
+      x: 745.0
+      y: 63.0
+      z: -335.0
     messages:
       - "&aİlk durağımıza geldik!"
-      - "&7Burası &espawn &7alanının yanı."
+      - "&7Senden 5 tane balık tutmanı isteyeceğim."
+      - "&7Bunu bence yapabilirsin"
   step-3:
     type: "COMMAND"
     commands:
-      - "give {player} bread 5"
-      - "tell {player} Size ekmek verdim!"
+      - "qc start guide_balikci {player}"
+      - "give {player} fishing_rod 1"
+      - "tell {player} Sana olta verildi!"
   step-4:
+    permission: guidenpc.baliktutuldu
+    permission-message: "&eSize verilen görevi tamamlamadınız..."
     type: "WAYPOINT"
     location:
       world: "world"

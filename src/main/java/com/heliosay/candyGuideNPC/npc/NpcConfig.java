@@ -52,12 +52,12 @@ public class NpcConfig {
 
     // NPC OYUNCUYA BAKMA MESAFESI
     public int getLookRange(){
-        return config.getInt("npc.lookrange");
+        return config.getInt("npc.look-range");
     }
 
     // Npc etkileşim Cooldown
     public long getCooldown(){
-        return config.getLong("npc.cooldown",1000);
+        return config.getLong("npc.cooldown",3000);
     }
 
     // Npc etkileşim ses efekti olsun mu
@@ -115,6 +115,9 @@ public class NpcConfig {
             step.setMessages(stepSection.getStringList("messages"));
             step.setCommands(stepSection.getStringList("commands"));
 
+            step.setPermission(stepSection.getString("permission"));
+            step.setPermissionMessage(stepSection.getString("permission-message"));
+
             // WAYPOINT ICIN KONUM
             if (step.getType() == GuideStep.StepType.WAYPOINT){
                 String world = stepSection.getString("location.world","world");
@@ -123,6 +126,7 @@ public class NpcConfig {
                 double z = stepSection.getDouble("location.z",100);
                 step.setLocation((new Location(Bukkit.getWorld(world),x,y,z)));
             }
+
             steps.add(step);
 
         }

@@ -7,6 +7,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.trait.PlayerFilter;
 import net.citizensnpcs.trait.LookClose;
+import net.citizensnpcs.trait.SkinTrait;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -63,12 +64,21 @@ public class NpcManager {
         lookClose.setRange(npcConfig.getLookRange());
         lookClose.setRealisticLooking(true);
 
+        /* TODO: İlerde Eklenicek Özellik
+        SkinTrait skinTrait = npc.getOrAddTrait(SkinTrait.class);
+        skinTrait.setSkinName("HeliosAy");
+        */
+
         // Sadece belirli oyuncuya görünür yapma
         PlayerFilter filter = npc.getOrAddTrait(PlayerFilter.class);
         filter.clear();
         filter.setAllowlist();
         filter.addPlayer(uuid);
         filter.recalculate();
+
+
+
+
 
         playerNpcs.put(uuid, npc);
         playerProgress.put(uuid, 0);
@@ -111,7 +121,7 @@ public class NpcManager {
 
     public void handleShiftClick(Player player) {
         UUID uuid = player.getUniqueId();
-        if (playersWaitingForInput.contains(uuid)) {
+        if (playerNpcs.containsKey(uuid)) { // Sadece NPC varsa çalış
             processNext(player);
         }
     }
@@ -144,13 +154,20 @@ public class NpcManager {
         }
 
         GuideStep step = steps.get(progress);
+
+        if (step.getPermission() != null && !player.hasPermission(step.getPermission())) {
+            String msg = step.getPermissionMessage() != null ? step.getPermissionMessage() : "&cBu adıma geçmek için izniniz yok.";
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            return;
+        }
+
         executeStep(player, npc, step);
 
         playerProgress.put(uuid, progress + 1);
         playersWaitingForInput.remove(uuid);
 
         if (npcConfig.isSoundEnabled()) {
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_AMBIENT, 1.0f, 1.0f);
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_AMBIENT, 1.0f, 1.3f);
         }
     }
 
