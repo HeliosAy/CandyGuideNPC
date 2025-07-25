@@ -6,6 +6,8 @@ author: HeliosAy
 description: Yeni oyunculara rehberlik yapan NPC plugin sistemi
 depend:
   - Citizens
+softdepend: [NoteBlockAPI]
+
 commands:
   guidenpc:
     description: Ana GuideNPC komutu

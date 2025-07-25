@@ -1,20 +1,20 @@
 package com.heliosay.candyGuideNPC.listener;
 
-import com.heliosay.candyGuideNPC.npc.NpcManager;
+import com.heliosay.candyGuideNPC.npc.GuideManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class NpcInteractListener implements Listener {
-    private NpcManager npcManager;
+    private GuideManager guideManager;
 
-    public NpcInteractListener(NpcManager npcManager) {
-        this.npcManager = npcManager;
+    public NpcInteractListener(GuideManager guideManager) {
+        this.guideManager = guideManager;
     }
 
     @EventHandler
     public void onNpcInteract(PlayerInteractEntityEvent event) {
-        npcManager.handleInteract(event);
+        guideManager.handleInteract(event);
     }
 
 }

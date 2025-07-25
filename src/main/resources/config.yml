@@ -1,87 +1,211 @@
+# Pluginin genel ayarları
+guide:
+  completed-guide-permission: guidenpc.completed
+  completed-lobby-teleport-location:
+    world: SpawnMap
+    x: 2.4037482032240938
+    y: -1.0
+    z: 11.584894832648638
+    yaw: -0.70912933
+    pitch: -1.7637577
+  start-teleport-location:
+    world: guidemap
+    x: 728.0071762611794
+    y: 70.0
+    z: -294.21092321574974
+    yaw: -142.93707
+    pitch: 0.46898097
+  allowed-commands-during-guide:
+    - "spawn"
+    - "home"
+    - "tpa"
+    - "help"
+# NPC'nin genel ayarları
 npc:
   enabled: true
-  name: "&eLorenzo [Rehber NPC]"
-  type: "VILLAGER"
-  glowing: true
-  look-range: 8
-  cooldown: 3000
-  sound-enabled: true
-  spawn-location:
-    world: "guidemap"
+  name: '&eLorenzo [Rehber]' # NPC'nin ismi
+  type: VILLAGER # NPC'nin tipi (VILLAGER, PLAYER, vb.)
+  glowing: true # NPC parlasın mı?
+  look-range: 8 # NPC'nin oyuncuya bakma mesafesi
+  cooldown: 3000 # Oyuncu etkileşimleri arası bekleme süresi (milisaniye cinsinden)
+  sound-enabled: true # NPC etkileşimlerinde ses çalsın mı?
+  spawn-location: # NPC'nin oyuncu katıldığında veya rehber başladığında doğacağı konum
+    world: guidemap
     x: 733.0
     y: 70.0
     z: -298.0
+
+# Sohbet ayarları
 chat:
-  empty-lines: 15
-  continue-message: "&3Devam etmek için &bShift &3tuşuna basın veya &bNPC'ye &3tıklayın"
+  empty-lines: 15 # Mesajlar öncesi chat'te bırakılacak boş satır sayısı
+  continue-message: '&3Devam etmek için &bShift &3tuşuna bas veya &bNPC''ye &3tıkla' # Oyuncunun bir sonraki adıma geçmesi için mesaj
+
+# Özel mesajlar (rehberin başında ve sonunda)
 messages:
-  welcome:
-    - "&6Sunucumuza Hoş Geldiniz &e{player}!"
-    - "&7Sunucumuza katıldığın için teşekkürler"
-    - "&7Devam edebilmek için öncelikle &eLorenzo ile konuşmalısın"
-  finish:
-    - "&6Rehber Tamamlandı!"
-    - "&7Tebrikler &e{player}&7, rehberi tamamladınız!"
-    - "&7İyi oyunlar dileriz!"
-# types: MESSAGE, WAYPOINT, COMMAND
+  welcome: # Oyuncu sunucuya ilk katıldığında gösterilecek mesajlar
+    - '&6Gökruh yolcusu seçildin &e{player}!'
+    - '&7Gökruh kasabası tehlikeli ama bir o kadar da umut dolu...'
+    - '&7Yolculuğun Lorenzo ile başlıyor. Konuşmak için yanına git.'
+  finish: # Rehber bittiğinde gösterilecek mesajlar
+    - '&6Rehber Tamamlandı!'
+    - '&7Tebrikler &e{player}&7, artık Gökruh''un yolunu öğrendin!'
+    - '&7Yeni maceralara hazır ol!'
+
+
 guide-steps:
-  step-1:
-    type: "MESSAGE"
+  tanisma-adimi:
     messages:
-      - "&6Merhaba &e{player}&6!"
-      - "&7Ben Lorenzo, sana Gökruh kasabasına yolculuğa"
-      - "&7çıkmadan önce, bazı şeyleri göstermek için buradayım..."
-      - "&cBeni takip et"
-  step-2:
-    type: "WAYPOINT"
+      - '&6Merhaba &e{player}&6.'
+      - '&7Ben Lorenzo. Gökruh''a varmadan önce sana bazı şeyleri göstermem gerek.'
+      - '&cHadi, beni takip et.'
+  bakir-kazma-gorevi:
     location:
-      world: "guidemap"
+      world: guidemap
+      x: 732.0
+      y: 67.0
+      z: -312.0
+      messages:
+        - '&aBurası gemilerin madenleri indirdiği yer.'
+        - '&7Kendini koruyabilmen için kılıç yapmalısın...'
+        - '&7Onun için buradan'
+        - '&c5 Bakır cevheri kazmalısın'
+      commands:
+        - qc start guide_bakir_kaz {player}
+        - give {player} ironpickaxe 1
+    particle:
+      world: guidemap
+      x: 735.0
+      y: 71.0
+      z: -308.0
+      type: "END_ROD"
+      message: "&bBakırları buradan kazabilirsin"
+
+  bakir-kilic-yap-gorevi:
+    location:
+      world: guidemap
+      x: 743.0
+      y: 67.0
+      z: -316.0
+      messages:
+        - '&aÖzel Silahlar Oluşturma'
+        - '&7Gökruh kasabasına gidincede demirciler var.'
+        - '&7Şimdilik bu kasabanın demircisi olan'
+        - '&cDavid''e Bakır kılıç yaptırabilirsin'
+      commands:
+        - qc start guide_bakir_kilic_yap {player}
+    particle:
+      world: guidemap
+      x: 748.0
+      y: 70.0
+      z: -312.0
+      type: "END_ROD"
+
+  konusma-bakir-kilic-yap-gorevi:
+    messages:
+      - '&aÖzel Silahlar'
+      - '&7Bazı silahlar özel lanetli yeteneklere sahiptir.'
+      - '&cBu tarz silahların yeteneklerini kullanabilmek için'
+      - '&c[Mouse sağ tık] yapabilirsin ama bunu her zaman kullanamazsın.'
+  konusma2-bakir-kilic-yap-gorevi:
+    messages:
+      - '&7Aslında tüm bu yetenekleri ve özellikleri'
+      - '&7Gökruh kasabasında bulunduğun her geçen gün öğreneceksin'
+      - '&7Şu an kafanı karıştırmak istemiyorum'
+      - '&cHazırsan biraz daha etrafa bakalım'
+
+  iskele-duragi-balik-tutma:
+    location:
+      world: guidemap
       x: 745.0
       y: 63.0
       z: -335.0
-    messages:
-      - "&aİlk durağımıza geldik!"
-      - "&7Senden 5 tane balık tutmanı isteyeceğim."
-      - "&7Bunu bence yapabilirsin"
-  step-3:
-    type: "COMMAND"
-    commands:
-      - "qc start guide_balikci {player}"
-      - "give {player} fishing_rod 1"
-      - "tell {player} Sana olta verildi!"
-  step-4:
+      messages:
+        - '&aBalık Tutma'
+        - '&7Şimdiden balık tutma yeteneklerini görmem gerekiyor'
+        - '&7çünkü Gökruh kasabasında duyduğuma göre sihirli bir gölet varmış'
+        - '&7Tabii bunu kimse bilmiyor...'
+        - ''
+        - '&dSana 1x Büyülü olta verildi'
+        - '&c10 Balık Tut'
+      commands:
+        - qc start guide_balikci {player}
+        - give {player} fishingrod 1 lure:100
+    particle:
+      world: guidemap
+      x: 740.0
+      y: 64.0
+      z: -332.0
+      type: "END_ROD"
+      message: "&bBalıkları bu gölden tutabilirsin"
+
+  konusma-iskele-duragi-balik-tutma:
     permission: guidenpc.baliktutuldu
-    permission-message: "&eSize verilen görevi tamamlamadınız..."
-    type: "WAYPOINT"
+    permission-message: '&cBalık tutma görevini tamamlamadan ilerleyemezsin!'
+    messages:
+      - '&7Balıkları tutabileceğini biliyordum'
+      - '&7Gökruh kasabasına gittiğin zaman,'
+      - '&7Kesinlikle &bBalıkçı Varen&7 ile tanışmalısın.'
+      - ''
+      - '&cNeyse, hadi gel biraz daha etrafa bakalım'
+
+  konusma-korsan-bilgi:
     location:
-      world: "world"
-      x: 233.5
-      y: 71.0
-      z: -551.5
+      world: guidemap
+      x: 730.0
+      y: 67.0
+      z: -365.0
+      messages:
+        - '&cKorsanlar bu bölgede sıkça görülür.'
+        - '&7Gemilere saldırıyorlar, altın çalıyorlar.'
+        - '&7Bu yüzden hazırlıklı olmanı isterim. Gözünü dört aç.'
+
+  konusma-korsan-oldurme:
+    messages: # NPC'nin söyleyeceği mesajlar (Adım başladığında)
+      - '&7Ama... Bu kadar sessizlik fazla uzun sürdü...'
+
+  korsan-saldirisi: # Mob spawn ve görev başlatma artık daha net
+    mob: # Doğacak mobların özellikleri
+      type: SKELETON # Mob tipi
+      amount: 5 # Kaç tane doğacak
+      name: '&cTaşlaşmış Korsan &7[Svy.1]' # Mobun özel adı
+      name-visible: true # Adı her zaman görünür olsun mu?
+      glowing: true # Mob parlasın mı?
+      silent: false # Mob ses çıkarsın mı?
+      skull-texture: 5d795ed7870ea5555742398f69f3926cbe1c0951ed965b732ebf2848f44746c1 # Eğer PLAYER_HEAD ise özel kafa dokusu
+      location:
+        world: guidemap
+        x: 710.0
+        y: 67.0
+        z: -360.0
+      equipment: # Mobun ekipmanları
+        head: PLAYER_HEAD
+        chest: ''
+        main_hand: STONE_SWORD
+      messages:
+        - '&cEYVAH!'
+        - '&7Korsanlar geri döndü...'
+        - '&cBENI ONLARDAN LUTFEN KORU!'
+      commands:
+        - qc start guide_taslasmiskorsanlar {player}
+
+  step-9:
+    permission: guidenpc.korsanlaroldu
+    permission-message: '&cKorsanları öldürmeden ilerleyemezsin!'
     messages:
-      - "&aİkinci durağımız!"
-      - "&7Burası &emağaza &7alanı."
-      - "&7Burada alışveriş yapabilirsin."
-  step-5:
-    type: "MESSAGE"
-    messages:
-      - "&6Önemli Bilgi!"
-      - "&7Sunucumuzda &e/spawn &7komutu ile"
-      - "&7istediğin zaman spawn'a dönebilirsin."
-  step-6:
-    type: "WAYPOINT"
+      - '&7Ohh... {player}!'
+      - '&7Ucuz atlattık. Çok korktum'
+      - '&7Ben yaşlı bir adamım evlat.'
+      - '&7Fazla aksiyonlara gelemiyorum artık...'
+
+  step-10-son-durak:
     location:
-      world: "world"
-      x: 218.5
-      y: 77.0
-      z: -551.5
-    messages:
-      - "&aÜçüncü ve son durağımız!"
-      - "&7Burası &egölet &7alanı."
-      - "&7Burada balık tutabilir, dinlenebilirsin."
-  step-7:
-    type: "MESSAGE"
-    messages:
-      - "&6Rehber tamamlandı!"
-      - "&7Artık sunucuda rahatça gezebilirsin &e{player}&7!"
-      - "&7Sorularınız için &e/help &7komutunu kullanın."
+      world: guidemap
+      x: 700.0
+      y: 67.0
+      z: -363.0
+      messages: # NPC bu waypointe vardığında gösterilecek mesajlar
+        - '&aVedalaşma zamanı'
+        - '&7Artık bu gemiye binip Gökruh''a'
+        - '&7yolculuğa çıkabilirsin {player}'
+        - '&7Kendine çok dikkat et.'
+        - '&cGökruh kasabasında seni çok garip olaylar bekliyor olacak...'
