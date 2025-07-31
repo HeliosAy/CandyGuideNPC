@@ -8,6 +8,8 @@ import com.heliosay.candyGuideNPC.util.ChatHelper;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.potion.PotionEffectType;
@@ -142,6 +144,13 @@ public class GuideManager {
     private void executeCurrentStep(Player player, NPC npc, GuideStep step) {
         playersWaitingForInput.remove(player.getUniqueId());
 
+        if (npcConfig.getNpcType() == EntityType.PLAYER) {
+            if (npc.getEntity() instanceof LivingEntity livingEntity) {
+                livingEntity.swingMainHand();
+            }
+        }
+
+
         boolean hasGeneralMessages = step.getMessages() != null && !step.getMessages().isEmpty();
         boolean hasGeneralCommands = step.getCommands() != null && !step.getCommands().isEmpty();
         boolean hasWaypoint = step.getLocation() != null;
@@ -223,8 +232,8 @@ public class GuideManager {
 
         removeGuideNpcForPlayer(player.getUniqueId());
 
+        player.setInvisible(false);
         musicManager.stopMusicForPlayer(player);
-        player.removePotionEffect(PotionEffectType.INVISIBILITY);
         player.teleport(npcConfig.getGuideCompletedTeleportLocation());
     }
 

@@ -30,17 +30,10 @@ public class PlayerJoinListener implements Listener {
             public void run() {
                 Player player = event.getPlayer();
 
-                player.addPotionEffect(new PotionEffect(
-                        PotionEffectType.INVISIBILITY,
-                        Integer.MAX_VALUE,
-                        0,
-                        false,
-                        false
-                ));
-
                 if (player.hasPermission(npcConfig.getCompletedGuidePermission())){
                     player.teleport(npcConfig.getGuideCompletedTeleportLocation());
                 } else {
+                    player.setInvisible(true);
                     player.teleport(npcConfig.getGuideStartTeleportLocation());
                     guideManager.spawnGuideNpcForPlayer(player);
 
