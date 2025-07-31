@@ -33,10 +33,10 @@ public class MusicManager {
         this.isNoteBlockAPIAvailable = checkNoteBlockAPI();
 
         if (isNoteBlockAPIAvailable) {
-            plugin.getLogger().log(Level.INFO, "NoteBlockAPI Bulundu");
+            plugin.getLogger().log(Level.INFO, "NoteBlockAPI Found");
             createMusicFolder();
         } else {
-            plugin.getLogger().log(Level.INFO, "NoteBlockAPI Bulunamadı");
+            plugin.getLogger().log(Level.INFO, "NoteBlockAPI Not Found");
         }
     }
 
@@ -53,7 +53,7 @@ public class MusicManager {
         File musicFolder = new File(plugin.getDataFolder(), "music");
         if (!musicFolder.exists()) {
             musicFolder.mkdirs();
-            plugin.getLogger().log(Level.WARNING, "Müzik klasoru oluşturuldu: " + musicFolder.getPath());
+            plugin.getLogger().log(Level.WARNING, "Music folder created: " + musicFolder.getPath());
         }
     }
 
@@ -71,22 +71,22 @@ public class MusicManager {
             File songFile = new File(plugin.getDataFolder(), "music/" + fileName + ".nbs");
 
             if (!songFile.exists()) {
-                plugin.getLogger().log(Level.WARNING, "Şarkı dosyası bulunamadı: " +songFile.getPath());
+                plugin.getLogger().log(Level.WARNING, "Song file not found: " + songFile.getPath());
                 return false;
             }
 
             Song song = NBSDecoder.parse(songFile);
             if (song == null) {
-                plugin.getLogger().log(Level.WARNING, "Şarkı dosyası okunamadı: " + fileName);
+                plugin.getLogger().log(Level.WARNING, "Could not read song file: " + fileName);
                 return false;
             }
 
             loadedSongs.put(fileName.toLowerCase(), song);
-            plugin.getLogger().log(Level.WARNING, "Şarkı yüklendi: " + fileName);
+            plugin.getLogger().log(Level.WARNING, "Song loaded: " + fileName);
             return true;
 
         } catch (Exception e) {
-            plugin.getLogger().log(Level.SEVERE, "Şarkı yüklenirken hata oluştu: " + fileName, e);
+            plugin.getLogger().log(Level.SEVERE, "Error occurred while loading song: " + fileName, e);
             return false;
         }
     }
@@ -97,22 +97,22 @@ public class MusicManager {
      */
     public void loadSongsFromConfig(Map<String, String> regionSongMap) {
         if (!isNoteBlockAPIAvailable) {
-            plugin.getLogger().log(Level.WARNING, "NoteBlockAPI aktif değil. Müzikler iptal edilecek");
+            plugin.getLogger().log(Level.WARNING, "NoteBlockAPI is not active. Music will be cancelled");
             return;
         }
 
         if (regionSongMap == null || regionSongMap.isEmpty()) {
-            plugin.getLogger().log(Level.WARNING, "Yüklenicek bölge müziği bulunamadı");
+            plugin.getLogger().log(Level.WARNING, "No region music found to load");
             return;
         }
-        plugin.getLogger().log(Level.WARNING,"Config dosyasından müzikler yükleniyor...");
+        plugin.getLogger().log(Level.WARNING, "Loading music from config file...");
         for (Map.Entry<String, String> entry : regionSongMap.entrySet()) {
             String songName = entry.getValue();
             if (!loadedSongs.containsKey(songName.toLowerCase())) {
                 loadSong(songName);
             }
         }
-        plugin.getLogger().log(Level.WARNING, loadedSongs.size() + "Tane şarkı yüklendi");
+        plugin.getLogger().log(Level.WARNING, loadedSongs.size() + " songs loaded");
     }
 
     /**
@@ -155,7 +155,7 @@ public class MusicManager {
             }
 
             if (song == null) {
-                plugin.getLogger().log(Level.WARNING, "Şarkı bulunamadı: " + songName);
+                plugin.getLogger().log(Level.WARNING, "Song not found: " + songName);
                 return false;
             }
 
@@ -180,11 +180,10 @@ public class MusicManager {
             activePlayers.put(player, radioPlayer);
             playerCurrentSongs.put(player, songName);
 
-            plugin.getLogger().log(Level.WARNING, "Müzik Fade in ile başlatıldı: " + player.getName() + " Şarkı: " + songName);
             return true;
 
         } catch (Exception e) {
-            plugin.getLogger().log(Level.SEVERE, "Müzik çalarken hata oluştu: " + songName, e);
+            plugin.getLogger().log(Level.SEVERE, "Error occurred while playing music: " + songName, e);
             return false;
         }
     }
@@ -203,7 +202,6 @@ public class MusicManager {
             try {
                 activePlayer.setPlaying(false);
 
-                plugin.getLogger().log(Level.WARNING, "Müzik Fade out ile durduruldu: " + player.getName());
                 // API fade out'u tamamladıktan sonra player kaldırılır ve destroy edilir
                 activePlayer.removePlayer(player);
                 activePlayer.destroy();
@@ -212,7 +210,7 @@ public class MusicManager {
                 playerCurrentSongs.remove(player);
 
             } catch (Exception e) {
-                plugin.getLogger().log(Level.WARNING, "Müzik durdurulurken hata oluştu: " + player.getName(), e);
+                plugin.getLogger().log(Level.WARNING, "Error occurred while stopping music: " + player.getName(), e);
             }
         }
     }
@@ -237,9 +235,8 @@ public class MusicManager {
 
                 activePlayers.remove(player);
                 playerCurrentSongs.remove(player);
-                plugin.getLogger().log(Level.WARNING, "Müzik anında durduruldu: " + player.getName());
             } catch (Exception e) {
-                plugin.getLogger().log(Level.WARNING, "Müzik zorla durdurulurken hata oluştu: " + player.getName(), e);
+                plugin.getLogger().log(Level.WARNING, "Error occurred while force stopping music: " + player.getName(), e);
             }
         }
     }
@@ -299,9 +296,9 @@ public class MusicManager {
             playerCurrentSongs.clear();
             loadedSongs.clear();
 
-            plugin.getLogger().log(Level.WARNING, "Müzik sistemi temizlendi");
+            plugin.getLogger().log(Level.WARNING, "Music system cleaned up");
         } catch (Exception e) {
-            plugin.getLogger().log(Level.WARNING, "Müzik sistemi temizlenirken hata oluştu", e);
+            plugin.getLogger().log(Level.WARNING, "Error occurred while cleaning up music system", e);
         }
     }
 }

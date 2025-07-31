@@ -53,7 +53,7 @@ public class PlayerMobManager {
             }
         });
         playerSpecificMobs.clear();
-        plugin.getLogger().info("Tüm oyuncuya özel moblar temizlendi!");
+        plugin.getLogger().info("All player-specific mobs have been cleared!");
     }
 
     public boolean isMobVisibleToPlayer(Player player, Entity mob) {

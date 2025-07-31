@@ -6,7 +6,6 @@ import com.heliosay.candyGuideNPC.entity.PlayerMobManager;
 import com.heliosay.candyGuideNPC.hologram.HologramManager;
 import com.heliosay.candyGuideNPC.util.ChatHelper;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.ArmorStand;
@@ -17,6 +16,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.heliosay.candyGuideNPC.util.ChatHelper.colorize;
 
 public class GuideStepExecutor {
 
@@ -41,7 +42,7 @@ public class GuideStepExecutor {
         chatHelper.clearChat(player);
         if (step.getMessages() != null && !step.getMessages().isEmpty()) {
             for (String message : step.getMessages()) {
-                player.sendMessage(chatHelper.centerMessage(ChatColor.translateAlternateColorCodes('&',
+                player.sendMessage(chatHelper.centerMessage(colorize(
                         message.replace("{player}", player.getName()))));
             }
         }
@@ -57,7 +58,7 @@ public class GuideStepExecutor {
         if (step.getWaypointMessages() != null && !step.getWaypointMessages().isEmpty()) {
             chatHelper.clearChat(player);
             for (String message : step.getWaypointMessages()) {
-                player.sendMessage(chatHelper.centerMessage(ChatColor.translateAlternateColorCodes('&',
+                player.sendMessage(chatHelper.centerMessage(colorize(
                         message.replace("{player}", player.getName()))));
             }
         }
@@ -86,7 +87,7 @@ public class GuideStepExecutor {
         }
 
         if (step.getMobType() == null) {
-            plugin.getLogger().warning("Mob type is null for step, skipping mob spawn for player " + player.getName());
+            plugin.getLogger().warning("Mob type is null for step. Skipping mob spawn for player: " + player.getName());
             return;
         }
 
@@ -102,7 +103,7 @@ public class GuideStepExecutor {
                     currentStepMobs.add(mob.getUniqueId());
                 }
             } else {
-                plugin.getLogger().warning("Mob oluşturulamadı veya yapılandırılamadı for player " + player.getName());
+                plugin.getLogger().warning("Failed to spawn or configure mob for player: " + player.getName());
             }
         }
 
@@ -111,10 +112,11 @@ public class GuideStepExecutor {
                 chatHelper.clearChat(player);
             }
             for (String message : step.getMobSpawnMessages()) {
-                player.sendMessage(chatHelper.centerMessage(ChatColor.translateAlternateColorCodes('&',
+                player.sendMessage(chatHelper.centerMessage(colorize(
                         message.replace("{player}", player.getName()))));
             }
         }
+
         if (step.getMobSpawnCommands() != null && !step.getMobSpawnCommands().isEmpty()) {
             for (String command : step.getMobSpawnCommands()) {
                 String processedCommand = command.replace("{player}", player.getName());
@@ -141,7 +143,6 @@ public class GuideStepExecutor {
             }
         }
 
-
         BukkitRunnable particleTask = new BukkitRunnable() {
             double height = 1.5;
 
@@ -165,21 +166,17 @@ public class GuideStepExecutor {
 
                 for (int i = 0; i < steps; i++) {
                     double offset = i * stepSize;
-
                     Location left = particleLoc.clone().add(-offset, baseY + offset, 0);
                     Location right = particleLoc.clone().add(offset, baseY + offset, 0);
-
                     player.spawnParticle(particleType, left, 0);
                     player.spawnParticle(particleType, right, 0);
                 }
             }
-
         };
 
         activeParticleTasks.put(player.getUniqueId(), particleTask);
         particleTask.runTaskTimer(plugin, 0L, 20L);
     }
-
 
     public void stopParticleTask(UUID playerUUID) {
         BukkitRunnable particleTask = activeParticleTasks.remove(playerUUID);
@@ -193,10 +190,8 @@ public class GuideStepExecutor {
     }
 
     public void removePlayerRelatedTasks(UUID playerUUID) {
-
         playerMobManager.removePlayerMobs(playerUUID);
         playerCurrentTaskMobs.remove(playerUUID);
-
         stopParticleTask(playerUUID);
     }
 
@@ -205,8 +200,8 @@ public class GuideStepExecutor {
             stopParticleTask(playerUUID);
         }
         activeParticleTasks.clear();
-
         playerCurrentTaskMobs.clear();
-        plugin.getLogger().info("GuideStepExecutor'a ait tüm aktif mob ve partikül taskları temizlendi!");
+
+        plugin.getLogger().info("All active mob and particle tasks managed by GuideStepExecutor have been cleaned up.");
     }
 }

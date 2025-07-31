@@ -19,6 +19,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.heliosay.candyGuideNPC.util.ChatHelper.colorize;
+
 public class NpcHandler {
 
     private final CandyGuideNPC plugin;
@@ -44,12 +46,12 @@ public class NpcHandler {
 
         Location spawnLoc = npcConfig.getSpawnLocation();
         if (spawnLoc == null || spawnLoc.getWorld() == null) {
-            player.sendMessage(ChatColor.RED + "NPC spawn konumu geçersiz!");
+            player.sendMessage("§cInvalid NPC spawn location!");
             return;
         }
 
         NPC npc = registry.createNPC(npcConfig.getNpcType(),
-                ChatColor.translateAlternateColorCodes('&', npcConfig.getNpcName()));
+                colorize(npcConfig.getNpcName()));
         npc.spawn(spawnLoc);
 
         npc.data().set(NPC.Metadata.GLOWING, npcConfig.isGlowing());
@@ -61,11 +63,11 @@ public class NpcHandler {
             if (skinName != null && !skinName.isEmpty()) {
                 SkinTrait skinTrait = npc.getOrAddTrait(SkinTrait.class);
                 skinTrait.setSkinName(skinName, true);
-                plugin.getLogger().info("NPC'ye skin uygulandı: " + skinName);
+                plugin.getLogger().info("Skin applied to NPC: " + skinName);
             } else {
                 SkinTrait skinTrait = npc.getOrAddTrait(SkinTrait.class);
                 skinTrait.setSkinName("", true);
-                plugin.getLogger().warning("NPC tipi PLAYER olmasına rağmen configte 'npc-skin' değeri boş veya ayarlanmamış. Varsayılan skin kullanılıyor.");
+                plugin.getLogger().warning("NPC type is PLAYER but 'npc-skin' in config is empty or not set. Default skin will be used.");
             }
         }
 
@@ -147,9 +149,8 @@ public class NpcHandler {
             removeNpc(uuid);
         }
         playerNpcs.clear();
-        plugin.getLogger().info("NpcHandlera ait tüm aktif Citizens NPCler ve navigasyon taskları temizlendi!");
+        plugin.getLogger().info("All active Citizens NPCs and navigation tasks in NpcHandler have been cleaned up.");
     }
-
 
     public void removeGhostNPCs(String targetName) {
         int removeCount = 0;
@@ -161,7 +162,6 @@ public class NpcHandler {
             }
         }
 
-        plugin.getLogger().info("Sunucu başlatılırken: (" + removeCount + " Adet NPC silindi)");
+        plugin.getLogger().info("During server startup: (" + removeCount + " ghost NPC(s) removed)");
     }
-
 }

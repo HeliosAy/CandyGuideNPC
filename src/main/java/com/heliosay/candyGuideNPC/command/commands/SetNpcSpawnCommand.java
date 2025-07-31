@@ -18,12 +18,12 @@ public class SetNpcSpawnCommand implements SubCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (!sender.hasPermission("guidenpc.setlocation")) {
-            sender.sendMessage(ChatColor.RED + "[GuideNpc] Bu komutu kullanmak için yetkiniz yok!");
+            sender.sendMessage(ChatColor.RED + "[GuideNpc] You do not have permission to use this command.");
             return true;
         }
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "[GuideNpc] Bu komut sadece oyuncular tarafından kullanılabilir!");
+            sender.sendMessage(ChatColor.RED + "[GuideNpc] This command is only use to players!");
             return true;
         }
 
@@ -38,7 +38,7 @@ public class SetNpcSpawnCommand implements SubCommand {
 
         plugin.reloadNpcData();
 
-        sender.sendMessage(ChatColor.GREEN + "[GuideNpc] NPC spawn konumu ayarlandı!");
+        sender.sendMessage(ChatColor.GREEN + "[GuideNpc] NPC Spawn location set!");
         sender.sendMessage(ChatColor.GRAY + "Dünya: " + ChatColor.WHITE + location.getWorld().getName());
         sender.sendMessage(ChatColor.GRAY + "X: " + ChatColor.WHITE + String.format("%.2f", location.getX()));
         sender.sendMessage(ChatColor.GRAY + "Y: " + ChatColor.WHITE + String.format("%.2f", location.getY()));

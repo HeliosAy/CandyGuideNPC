@@ -1,22 +1,22 @@
-// Eski NpcManager'ın yerini alacak. Adı değişti: com/heliosay/candyGuideNPC/npc/GuideManager.java
 package com.heliosay.candyGuideNPC.npc;
 
 import com.heliosay.candyGuideNPC.CandyGuideNPC;
 import com.heliosay.candyGuideNPC.entity.PlayerMobManager;
-import com.heliosay.candyGuideNPC.entity.MobSummoner; // Gerekli değilse kaldırılabilir
+import com.heliosay.candyGuideNPC.entity.MobSummoner;
 import com.heliosay.candyGuideNPC.music.MusicManager;
-import com.heliosay.candyGuideNPC.util.ChatHelper; // ChatHelper'ı import et
+import com.heliosay.candyGuideNPC.util.ChatHelper;
 import net.citizensnpcs.api.npc.NPC;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.heliosay.candyGuideNPC.util.ChatHelper.colorize;
 
 public class GuideManager {
 
@@ -70,7 +70,7 @@ public class GuideManager {
         if (!welcomeMessages.isEmpty()) {
             chatHelper.clearChat(player);
             for (String message : welcomeMessages) {
-                player.sendMessage(chatHelper.centerMessage(ChatColor.translateAlternateColorCodes('&',
+                player.sendMessage(chatHelper.centerMessage(colorize(
                         message.replace("{player}", player.getName()))));
             }
             sendContinueMessage(player);
@@ -128,8 +128,8 @@ public class GuideManager {
 
         GuideStep step = steps.get(progress);
         if (step.getPermission() != null && !player.hasPermission(step.getPermission())) {
-            String msg = step.getPermissionMessage() != null ? step.getPermissionMessage() : "&cBu adıma geçmek için izniniz yok.";
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            String msg = step.getPermissionMessage() != null ? step.getPermissionMessage() : "&cYou do not have permission to continue this step.";
+            player.sendMessage(colorize(msg));
             return;
         }
 
@@ -174,7 +174,7 @@ public class GuideManager {
             Location target = step.getLocation();
             if (target.getWorld() != null) {
                 chatHelper.clearChat(player);
-                player.sendMessage(chatHelper.centerMessage(ChatColor.GREEN + "Beni takip edin!"));
+                player.sendMessage(chatHelper.centerMessage(colorize(npcConfig.getFollowMessage())));
 
                 // NpcHandler ile navigasyonu başlat ve callback sağla
                 npcHandler.startNpcNavigation(player, npc, target, () -> {
@@ -196,7 +196,7 @@ public class GuideManager {
                 });
 
             } else {
-                player.sendMessage(ChatColor.RED + "Hedef konum geçersiz!");
+                player.sendMessage("§cTarget location is invalid!");
                 playerProgress.compute(player.getUniqueId(), (uuid, progress) -> progress + 1);
                 processNextStep(player);
             }
@@ -214,7 +214,7 @@ public class GuideManager {
         chatHelper.clearChat(player);
         List<String> finishMessages = npcConfig.getFinishMessages();
         for (String message : finishMessages) {
-            player.sendMessage(chatHelper.centerMessage(ChatColor.translateAlternateColorCodes('&',
+            player.sendMessage(chatHelper.centerMessage(colorize(
                     message.replace("{player}", player.getName()))));
         }
         if (npcConfig.isSoundEnabled()) {
@@ -224,13 +224,14 @@ public class GuideManager {
         removeGuideNpcForPlayer(player.getUniqueId());
 
         musicManager.stopMusicForPlayer(player);
+        player.removePotionEffect(PotionEffectType.INVISIBILITY);
         player.teleport(npcConfig.getGuideCompletedTeleportLocation());
     }
 
     private void sendContinueMessage(Player player) {
         String continueMsg = npcConfig.getContinueMessage();
         player.sendMessage("");
-        player.sendMessage(chatHelper.centerMessage(ChatColor.translateAlternateColorCodes('&', continueMsg)));
+        player.sendMessage(chatHelper.centerMessage(colorize(continueMsg)));
         player.sendMessage("");
     }
 
@@ -253,7 +254,7 @@ public class GuideManager {
 
         playerMobManager.cleanup();
 
-        plugin.getLogger().info("GuideManager ve diger hizmetler temizlendi!");
+        plugin.getLogger().info("GuideManager and other services cleaned up!");
     }
 
     public CandyGuideNPC getPlugin() {

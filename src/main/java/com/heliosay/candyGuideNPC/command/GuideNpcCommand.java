@@ -39,12 +39,12 @@ public class GuideNpcCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (args.length == 0) {
-            sender.sendMessage("§6--- GuideNPC Komutları ---");
-            sender.sendMessage("§e/guidenpc reload §7- Config dosyasını yeniden yükler");
-            sender.sendMessage("§e/guidenpc setstartlocation §7- Başlangıç teleport konumunu ayarlar");
-            sender.sendMessage("§e/guidenpc setcompletedlocation §7- Bitiş teleport konumunu ayarlar");
-            sender.sendMessage("§e/guidenpc setnpcspawn §7- NPC spawn konumunu ayarlar");
-            sender.sendMessage("§7Kısa kullanım: §esetstart, setcompleted, setnpc");
+            sender.sendMessage("§6--- GuideNPC Commands ---");
+            sender.sendMessage("§e/guidenpc reload §7- Reloads the config file");
+            sender.sendMessage("§e/guidenpc setstartlocation §7- Sets the start teleport location");
+            sender.sendMessage("§e/guidenpc setcompletedlocation §7- Sets the completion teleport location");
+            sender.sendMessage("§e/guidenpc setnpcspawn §7- Sets the NPC spawn location");
+            sender.sendMessage("§7Short aliases: §esetstart, setcompleted, setnpc");
             return true;
         }
 
@@ -54,8 +54,8 @@ public class GuideNpcCommand implements CommandExecutor, TabCompleter {
         if (subCommand != null) {
             return subCommand.execute(sender, args);
         } else {
-            sender.sendMessage("§cBilinmeyen komut: §f" + sub);
-            sender.sendMessage("§7Kullanılabilir komutlar: reload, setstartlocation, setcompletedlocation, setnpcspawn");
+            sender.sendMessage("§cUnknown command: §f" + sub);
+            sender.sendMessage("§7Available commands: reload, setstartlocation, setcompletedlocation, setnpcspawn");
             return true;
         }
     }

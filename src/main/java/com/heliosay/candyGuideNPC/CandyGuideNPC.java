@@ -46,7 +46,7 @@ public final class CandyGuideNPC extends JavaPlugin {
         npcHandler.removeGhostNPCs(npcConfig.getNpcName());
 
         
-        getLogger().info("GuideNPC Plugin başarıyla yüklendi!");
+        getLogger().info("GuideNPC Plugin successfully Enabled");
     }
 
     public void reloadNpcData() {
@@ -57,7 +57,7 @@ public final class CandyGuideNPC extends JavaPlugin {
             guideManager.cleanup();
         }
         this.guideManager = new GuideManager(this, npcConfig, playerMobManager, musicManager);
-        getLogger().info("Config dosyası yeniden yüklendi ve GuideManager güncellendi!");
+        getLogger().info("Config file reloaded and GuideManager updated!");
     }
 
     @Override
@@ -65,7 +65,7 @@ public final class CandyGuideNPC extends JavaPlugin {
         if (musicManager != null) { musicManager.cleanup(); }
         if (guideManager != null) { guideManager.cleanup(); }
         if (playerMobManager != null) { playerMobManager.cleanup(); }
-        getLogger().info("GuideNPC Plugin kapatıldı");
+        getLogger().info("GuideNPC Plugin has been disabled");
     }
 
     public GuideManager getGuideManager() {

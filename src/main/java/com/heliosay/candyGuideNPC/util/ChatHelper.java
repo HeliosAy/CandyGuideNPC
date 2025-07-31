@@ -32,4 +32,13 @@ public class ChatHelper {
         sb.append(message);
         return sb.toString();
     }
+
+
+    public static String colorize(String message) {
+        if (message == null) {
+            return null;
+        }
+        return org.bukkit.ChatColor.translateAlternateColorCodes('&', message);
+    }
+
 }

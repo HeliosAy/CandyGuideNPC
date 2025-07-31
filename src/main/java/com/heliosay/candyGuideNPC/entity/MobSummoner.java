@@ -31,7 +31,7 @@ public class MobSummoner {
      */
     public Entity summonAndConfigureMob(Location spawnLoc, GuideStep step) {
         if (spawnLoc == null || spawnLoc.getWorld() == null) {
-            plugin.getLogger().warning("MobSummoner: Geçersiz spawn konumu. Mob oluşturulamadı.");
+            plugin.getLogger().warning("MobSummoner: Invalid spawn location. Failed to summon mob.");
             return null;
         }
 
@@ -64,14 +64,14 @@ public class MobSummoner {
                             try {
                                 textures.setSkin(new URL("http://textures.minecraft.net/texture/" + step.getSkullTexture()));
                             } catch (MalformedURLException e) {
-                                plugin.getLogger().warning("MobSummoner: Geçersiz skull texture URL: " + step.getSkullTexture() + " - " + e.getMessage());
+                                plugin.getLogger().warning("MobSummoner: Invalid skull texture URL: " + step.getSkullTexture() + " - " + e.getMessage());
                             }
                             profile.setTextures(textures);
 
                             skullMeta.setOwnerProfile(profile);
                             head.setItemMeta(skullMeta);
                         } else {
-                            plugin.getLogger().warning("MobSummoner: SkullMeta null. Başlık itemi PLAYER_HEAD değil veya meta verisi alınamadı.");
+                            plugin.getLogger().warning("MobSummoner: SkullMeta is null. The head item may not be a PLAYER_HEAD or its meta could not be retrieved.");
                         }
                     }
                     livingMob.getEquipment().setHelmet(head);

@@ -16,12 +16,12 @@ public class ReloadCommand implements SubCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (!sender.hasPermission("guidenpc.reload")) {
-            sender.sendMessage(ChatColor.RED + "[GuideNpc] Bu komutu kullanmak için yetkiniz yok");
+            sender.sendMessage(ChatColor.RED + "[GuideNpc] You do not have permission to use this command.");
             return true;
         }
 
         plugin.reloadNpcData();
-        sender.sendMessage(ChatColor.GREEN + "[GuideNpc] Config dosyası yeniden yüklendi!");
+        sender.sendMessage(ChatColor.GREEN + "[GuideNpc] Config file reloaded!");
         return true;
     }
 }

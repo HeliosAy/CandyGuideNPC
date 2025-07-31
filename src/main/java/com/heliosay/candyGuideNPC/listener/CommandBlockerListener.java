@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+import static com.heliosay.candyGuideNPC.util.ChatHelper.colorize;
+
 public class CommandBlockerListener implements Listener {
 
     private final NpcConfig npcConfig;
@@ -45,7 +47,7 @@ public class CommandBlockerListener implements Listener {
             }
 
             event.setCancelled(true);
-            player.sendMessage(ChatColor.RED + "Rehberi tamamlamadan bu komutu kullanamazsın!");
+            player.sendMessage(colorize(npcConfig.getCommandBlockerMessage()));
         }
     }
 }

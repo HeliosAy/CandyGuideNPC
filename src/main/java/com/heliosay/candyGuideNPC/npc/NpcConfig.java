@@ -89,6 +89,11 @@ public class NpcConfig {
         return lowerCaseAllowed;
     }
 
+    public String getCommandBlockerMessage(){
+        return config.getString("guide.command-blocker-message","&cYou cannot use this command without completing the guide.");
+    }
+
+
 
     public boolean isEnabled(){
         return config.getBoolean("npc.enabled");
@@ -125,6 +130,10 @@ public class NpcConfig {
 
     public boolean isSoundEnabled(){
         return config.getBoolean("npc.sound-enabled",true);
+    }
+
+    public String getFollowMessage(){
+        return config.getString("npc.follow-message","&aFollow me");
     }
 
     public int getEmptyLines(){

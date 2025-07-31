@@ -16,20 +16,19 @@ guide:
     yaw: -142.93707
     pitch: 0.46898097
   allowed-commands-during-guide:
-    - "spawn"
-    - "home"
-    - "tpa"
     - "help"
+  command-blocker-message: "Rehberi tamamlamadan bu komutu kullanamazsın!"
 # NPC'nin genel ayarları
 npc:
   enabled: true
   name: '&eLorenzo [Rehber]' # NPC'nin ismi
-  type: VILLAGER # NPC'nin tipi (VILLAGER, PLAYER, vb.)
-  npc-skin: "HeliosAy"
+  type: PLAYER # NPC'nin tipi (VILLAGER, PLAYER, vb.)
+  npc-skin: "2adyt"
   glowing: true # NPC parlasın mı?
   look-range: 8 # NPC'nin oyuncuya bakma mesafesi
   cooldown: 3000 # Oyuncu etkileşimleri arası bekleme süresi (milisaniye cinsinden)
   sound-enabled: true # NPC etkileşimlerinde ses çalsın mı?
+  follow-message: "&aBeni Takip Edin" # Npc oyuncuya yol gösterirken yazıcak yazı
   spawn-location: # NPC'nin oyuncu katıldığında veya rehber başladığında doğacağı konum
     world: guidemap
     x: 733.0
@@ -123,8 +122,6 @@ guide-steps:
       messages:
         - '&aBalık Tutma'
         - '&7Şimdiden balık tutma yeteneklerini görmem gerekiyor'
-        - '&7çünkü Gökruh kasabasında duyduğuma göre sihirli bir gölet varmış'
-        - '&7Tabii bunu kimse bilmiyor...'
         - ''
         - '&dSana 1x Büyülü olta verildi'
         - '&c10 Balık Tut'
@@ -154,7 +151,7 @@ guide-steps:
       world: guidemap
       x: 730.0
       y: 67.0
-      z: -365.0
+      z: -367.0
       messages:
         - '&cKorsanlar bu bölgede sıkça görülür.'
         - '&7Gemilere saldırıyorlar, altın çalıyorlar.'
