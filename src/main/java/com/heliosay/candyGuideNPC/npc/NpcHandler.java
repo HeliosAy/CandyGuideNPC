@@ -6,8 +6,10 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.trait.PlayerFilter;
 import net.citizensnpcs.trait.LookClose;
+import net.citizensnpcs.trait.SkinTrait;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -49,8 +51,23 @@ public class NpcHandler {
         NPC npc = registry.createNPC(npcConfig.getNpcType(),
                 ChatColor.translateAlternateColorCodes('&', npcConfig.getNpcName()));
         npc.spawn(spawnLoc);
+
         npc.data().set(NPC.Metadata.GLOWING, npcConfig.isGlowing());
         npc.data().setPersistent(NPC.Metadata.SILENT, true);
+
+        // NPC tipi PLAYER ise skini ayarla
+        if (npcConfig.getNpcType() == EntityType.PLAYER) {
+            String skinName = npcConfig.getNpcSkin();
+            if (skinName != null && !skinName.isEmpty()) {
+                SkinTrait skinTrait = npc.getOrAddTrait(SkinTrait.class);
+                skinTrait.setSkinName(skinName, true);
+                plugin.getLogger().info("NPC'ye skin uygulandı: " + skinName);
+            } else {
+                SkinTrait skinTrait = npc.getOrAddTrait(SkinTrait.class);
+                skinTrait.setSkinName("", true);
+                plugin.getLogger().warning("NPC tipi PLAYER olmasına rağmen configte 'npc-skin' değeri boş veya ayarlanmamış. Varsayılan skin kullanılıyor.");
+            }
+        }
 
         LookClose lookClose = npc.getOrAddTrait(LookClose.class);
         lookClose.lookClose(true);

@@ -25,6 +25,7 @@ npc:
   enabled: true
   name: '&eLorenzo [Rehber]' # NPC'nin ismi
   type: VILLAGER # NPC'nin tipi (VILLAGER, PLAYER, vb.)
+  npc-skin: "HeliosAy"
   glowing: true # NPC parlasın mı?
   look-range: 8 # NPC'nin oyuncuya bakma mesafesi
   cooldown: 3000 # Oyuncu etkileşimleri arası bekleme süresi (milisaniye cinsinden)

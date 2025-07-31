@@ -107,6 +107,10 @@ public class NpcConfig {
         }
     }
 
+    public String getNpcSkin(){
+        return config.getString("npc.npc-skin");
+    }
+
     public boolean isGlowing(){
         return config.getBoolean("npc.glowing");
     }
