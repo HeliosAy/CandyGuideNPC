@@ -149,4 +149,19 @@ public class NpcHandler {
         playerNpcs.clear();
         plugin.getLogger().info("NpcHandlera ait tüm aktif Citizens NPCler ve navigasyon taskları temizlendi!");
     }
+
+
+    public void removeGhostNPCs(String targetName) {
+        int removeCount = 0;
+
+        for (NPC npc : registry) {
+            if (ChatColor.stripColor(npc.getName()).equalsIgnoreCase(ChatColor.stripColor(targetName))) {
+                npc.destroy();
+                removeCount++;
+            }
+        }
+
+        plugin.getLogger().info("Sunucu başlatılırken: (" + removeCount + " Adet NPC silindi)");
+    }
+
 }

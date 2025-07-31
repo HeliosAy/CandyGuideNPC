@@ -7,6 +7,7 @@ import com.heliosay.candyGuideNPC.listener.*;
 import com.heliosay.candyGuideNPC.music.MusicManager;
 import com.heliosay.candyGuideNPC.npc.NpcConfig;
 import com.heliosay.candyGuideNPC.npc.GuideManager;
+import com.heliosay.candyGuideNPC.npc.NpcHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,6 +16,7 @@ public final class CandyGuideNPC extends JavaPlugin {
     private NpcConfig npcConfig;
     private PlayerMobManager playerMobManager;
     private MusicManager musicManager;
+    private NpcHandler npcHandler;
 
     @Override
     public void onEnable() {
@@ -25,6 +27,7 @@ public final class CandyGuideNPC extends JavaPlugin {
         this.playerMobManager = new PlayerMobManager(this);
         this.musicManager = new MusicManager(this);
         this.guideManager = new GuideManager(this, npcConfig, playerMobManager, musicManager);
+        this.npcHandler = new NpcHandler(this, npcConfig);
 
         // Event listenerları kaydet
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(guideManager, npcConfig, musicManager), this);
@@ -39,6 +42,10 @@ public final class CandyGuideNPC extends JavaPlugin {
         getCommand("guidenpc").setExecutor(guideNpcCommand);
         getCommand("guidenpc").setTabCompleter(guideNpcCommand);
 
+        // Bozuk NPCleri Temizle
+        npcHandler.removeGhostNPCs(npcConfig.getNpcName());
+
+        
         getLogger().info("GuideNPC Plugin başarıyla yüklendi!");
     }
 
