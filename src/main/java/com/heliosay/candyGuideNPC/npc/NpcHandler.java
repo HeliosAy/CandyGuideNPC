@@ -13,10 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.heliosay.candyGuideNPC.util.ChatHelper.colorize;
@@ -152,16 +149,33 @@ public class NpcHandler {
         plugin.getLogger().info("All active Citizens NPCs and navigation tasks in NpcHandler have been cleaned up.");
     }
 
+
+
     public void removeGhostNPCs(String targetName) {
+        NPCRegistry registry = CitizensAPI.getNPCRegistry();
+        if (registry == null) {
+            plugin.getLogger().severe("NPCRegistry is null. Failed to remove ghost NPCs.");
+            return;
+        }
         int removeCount = 0;
+        String target = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', targetName));
 
         for (NPC npc : registry) {
-            if (ChatColor.stripColor(npc.getName()).equalsIgnoreCase(ChatColor.stripColor(targetName))) {
-                npc.destroy();
-                removeCount++;
+            String rawName = npc.getRawName();
+            if (rawName != null && ChatColor.stripColor(rawName).equalsIgnoreCase(target)) {
+                try {
+                    npc.destroy();
+                    removeCount++;
+                } catch (Exception e) {
+                    plugin.getLogger().warning("An error occurred while removing NPC: " + e.getMessage());
+                }
             }
         }
-
-        plugin.getLogger().info("During server startup: (" + removeCount + " ghost NPC(s) removed)");
+        if (removeCount > 0) {
+            plugin.getLogger().info(removeCount + " ghost NPC(s) removed: " + targetName);
+        }
     }
+
+
+
 }

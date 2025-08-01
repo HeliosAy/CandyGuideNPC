@@ -4,6 +4,7 @@ import com.heliosay.candyGuideNPC.command.GuideNpcCommand;
 import com.heliosay.candyGuideNPC.entity.PlayerMobManager;
 import com.heliosay.candyGuideNPC.hologram.HologramManager;
 import com.heliosay.candyGuideNPC.listener.*;
+import com.heliosay.candyGuideNPC.listener.player.*;
 import com.heliosay.candyGuideNPC.music.MusicManager;
 import com.heliosay.candyGuideNPC.npc.NpcConfig;
 import com.heliosay.candyGuideNPC.npc.GuideManager;
@@ -32,10 +33,15 @@ public final class CandyGuideNPC extends JavaPlugin {
         // Event listenerları kaydet
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(guideManager, npcConfig, musicManager), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(guideManager, musicManager), this);
-        Bukkit.getPluginManager().registerEvents(new NpcInteractListener(guideManager), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(guideManager), this);
         Bukkit.getPluginManager().registerEvents(new PlayerShiftListener(guideManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerAntiDeathListener(npcConfig), this);
+        getServer().getPluginManager().registerEvents(new PlayerAntiCraftListener(npcConfig), this);
+
+
         Bukkit.getPluginManager().registerEvents(new MobTargetListener(this, playerMobManager), this);
         Bukkit.getPluginManager().registerEvents(new CommandBlockerListener(npcConfig), this);
+        getServer().getPluginManager().registerEvents(new CitizensLoadListener(this), this);
 
         // Komutları Kaydet
         GuideNpcCommand guideNpcCommand = new GuideNpcCommand(this);
@@ -43,7 +49,9 @@ public final class CandyGuideNPC extends JavaPlugin {
         getCommand("guidenpc").setTabCompleter(guideNpcCommand);
 
         // Bozuk NPCleri Temizle
-        npcHandler.removeGhostNPCs(npcConfig.getNpcName());
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            npcHandler.removeGhostNPCs(npcConfig.getNpcName());
+        }, 60L);
 
         
         getLogger().info("GuideNPC Plugin successfully Enabled");
@@ -82,5 +90,9 @@ public final class CandyGuideNPC extends JavaPlugin {
 
     public PlayerMobManager getPlayerMobManager() {
         return playerMobManager;
+    }
+
+    public NpcHandler getNpcHandler() {
+        return npcHandler;
     }
 }

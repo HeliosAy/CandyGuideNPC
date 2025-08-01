@@ -1,4 +1,4 @@
-package com.heliosay.candyGuideNPC.listener;
+package com.heliosay.candyGuideNPC.listener.player;
 
 import com.heliosay.candyGuideNPC.npc.GuideManager;
 import org.bukkit.event.EventHandler;

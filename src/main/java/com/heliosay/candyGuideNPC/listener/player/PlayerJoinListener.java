@@ -1,15 +1,12 @@
-package com.heliosay.candyGuideNPC.listener;
+package com.heliosay.candyGuideNPC.listener.player;
 
 import com.heliosay.candyGuideNPC.music.MusicManager;
 import com.heliosay.candyGuideNPC.npc.GuideManager;
 import com.heliosay.candyGuideNPC.npc.NpcConfig;
-import org.bukkit.Effect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class PlayerJoinListener implements Listener {

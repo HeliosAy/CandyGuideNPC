@@ -160,6 +160,9 @@ public class NpcConfig {
         return new Location(Bukkit.getWorld(worldName),x,y,z);
     }
 
+    public String getGuideWorld(){
+        return config.getString("npc.spawn-location.world");
+    }
 
     public List<String> getWelcomeMessages() {
         return config.getStringList("messages.welcome");
