@@ -12,7 +12,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -33,6 +32,7 @@ public class GuideManager {
     private final Map<UUID, Integer> playerProgress = new ConcurrentHashMap<>();
     private final Map<UUID, Long> lastInteraction = new ConcurrentHashMap<>();
     private final Set<UUID> playersWaitingForInput = Collections.synchronizedSet(new HashSet<>());
+    private final Map<UUID, Boolean> isNpcNavigating = new ConcurrentHashMap<>();
 
 
     public GuideManager(CandyGuideNPC plugin, NpcConfig npcConfig, PlayerMobManager playerMobManager, MusicManager musicManager) {
@@ -56,6 +56,7 @@ public class GuideManager {
 
         playerProgress.put(uuid, 0);
         lastInteraction.put(uuid, 0L);
+        isNpcNavigating.put(uuid, false);
 
         // Hoş geldin mesajı için
         new BukkitRunnable() {
@@ -89,7 +90,9 @@ public class GuideManager {
             return;
         }
         event.setCancelled(true);
-        processNextStep(player);
+        if (playersWaitingForInput.contains(uuid)) {
+            processNextStep(player);
+        }
     }
 
     public void handleShiftClick(Player player) {
@@ -101,7 +104,7 @@ public class GuideManager {
             return;
         }
 
-        if (playersWaitingForInput.contains(uuid) || npcHandler.isNpcSpawned(uuid)) {
+        if (playersWaitingForInput.contains(uuid)) {
             processNextStep(player);
         }
     }
@@ -186,12 +189,16 @@ public class GuideManager {
                 player.sendMessage(chatHelper.centerMessage(colorize(npcConfig.getFollowMessage())));
 
                 // NpcHandler ile navigasyonu başlat ve callback sağla
+                isNpcNavigating.put(player.getUniqueId(), true);
+
                 npcHandler.startNpcNavigation(player, npc, target, () -> {
                     // Waypoint'e varıldığında yapılacaklar
                     stepExecutor.executeWaypointActions(player, step);
 
+                    isNpcNavigating.put(player.getUniqueId(), false);
+
                     if (hasMobSpawnConfig) {
-                        stepExecutor.performMobSpawnActions(player, step, step.getMobSpawnLocation() != null ? step.getMobSpawnLocation() : target); // StepExecutor'ı kullan
+                        stepExecutor.performMobSpawnActions(player, step, step.getMobSpawnLocation() != null ? step.getMobSpawnLocation() : target);
                     }
 
                     // Waypoint'e varıldığında particle
@@ -251,6 +258,7 @@ public class GuideManager {
         playerProgress.remove(uuid);
         lastInteraction.remove(uuid);
         playersWaitingForInput.remove(uuid);
+        isNpcNavigating.remove(uuid);
     }
 
     public void cleanup() {
@@ -260,6 +268,7 @@ public class GuideManager {
         playerProgress.clear();
         lastInteraction.clear();
         playersWaitingForInput.clear();
+        isNpcNavigating.clear();
 
         playerMobManager.cleanup();
 
